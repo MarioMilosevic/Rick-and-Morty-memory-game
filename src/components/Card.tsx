@@ -1,12 +1,14 @@
-import React from "react";
-import rickImg from "../assets/gearHead.png";
+interface CardProps {
+  image:string,
+  name:string
+}
 
-const Card = () => {
+const Card = ({image, name}:CardProps) => {
   return (
-    <div className="rounded-lg border shadow-2xl">
-      <img src={rickImg} alt="Rick" />
-      <h2>Mario Milosevic</h2>
-    </div>
+    <li className="rounded-xl border flex flex-col items-center p-2 w-[150px] h-[195px] shadow-2xl text-center">
+      <img className="h-[80%] p-1" src={image} alt="Rick" />
+      <h2 className="pt-2">{name}</h2>
+    </li>
   );
 };
 
