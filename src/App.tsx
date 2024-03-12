@@ -1,6 +1,6 @@
 import { useState, createContext } from "react";
 import Header from "./components/Header";
-import ScoreBoard from "./ScoreBoard";
+import ScoreBoard from "./components/ScoreBoard";
 import Cards from "./components/Cards";
 import gearHead from "./assets/gearHead.png";
 import squanchy from "./assets/squanchy.png";
@@ -50,18 +50,17 @@ const cardsData: Card[] = [
 export const AppContext = createContext<{
   cards: Card[];
   setCards: React.Dispatch<React.SetStateAction<Card[]>>;
-  currentScore:number,
-  setCurrentScore:React.Dispatch<React.SetStateAction<number>>;
-  highScore:number,
-  setHighScore:React.Dispatch<React.SetStateAction<number>>;
-
+  currentScore: number;
+  setCurrentScore: React.Dispatch<React.SetStateAction<number>>;
+  highScore: number;
+  setHighScore: React.Dispatch<React.SetStateAction<number>>;
 }>({
   cards: [],
   setCards: () => {},
-  currentScore:0,
+  currentScore: 0,
   setCurrentScore: () => {},
-  highScore:0,
-  setHighScore: () => {}
+  highScore: 0,
+  setHighScore: () => {},
 });
 
 function App() {
@@ -71,7 +70,16 @@ function App() {
 
   return (
     <>
-      <AppContext.Provider value={{ cards, setCards, currentScore, setCurrentScore, highScore, setHighScore }}>
+      <AppContext.Provider
+        value={{
+          cards,
+          setCards,
+          currentScore,
+          setCurrentScore,
+          highScore,
+          setHighScore,
+        }}
+      >
         <Header />
         <ScoreBoard />
         <Cards />

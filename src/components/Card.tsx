@@ -8,7 +8,7 @@ interface CardProps {
 }
 
 const Card = ({ image, name, id }: CardProps) => {
-  const { setCards } = useContext(AppContext);
+  const { setCards, setHighScore, setCurrentScore } = useContext(AppContext);
 
   const clickHandler = (id:number) => {
     setCards((prev) =>
@@ -16,6 +16,8 @@ const Card = ({ image, name, id }: CardProps) => {
         card.id === id ? { ...card, isClicked: !card.isClicked } : card
       )
     );
+    setCurrentScore(prev => prev + 1)
+    setHighScore(prev => prev + 1)
   };
 
   return (
