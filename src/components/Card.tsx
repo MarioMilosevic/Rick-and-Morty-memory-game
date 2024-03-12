@@ -8,9 +8,9 @@ interface CardProps {
 }
 
 const Card = ({ image, name, id }: CardProps) => {
-  const { cards, setCards } = useContext(AppContext);
+  const { setCards } = useContext(AppContext);
 
-  const clickHandler = (id) => {
+  const clickHandler = (id:number) => {
     setCards((prev) =>
       prev.map((card) =>
         card.id === id ? { ...card, isClicked: !card.isClicked } : card
@@ -20,7 +20,7 @@ const Card = ({ image, name, id }: CardProps) => {
 
   return (
     <li
-      className="rounded-xl border flex flex-col cursor-pointer justify-between items-center p-2 w-[150px] h-[195px] shadow-2xl text-center duration-200 hover:scale-110"
+      className="bg-gray-50 rounded-xl border flex flex-col cursor-pointer justify-between items-center p-2 w-[150px] h-[195px] shadow-2xl text-center duration-200 hover:scale-110"
       onClick={() => clickHandler(id)}
     >
       <img className="h-[70%]" src={image} alt={image} />

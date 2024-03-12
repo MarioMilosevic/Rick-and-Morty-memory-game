@@ -1,14 +1,8 @@
 import Card from "./Card";
 import { useContext } from "react";
-import App, { AppContext } from "../App";
+import { AppContext } from "../App";
 const Cards = () => {
   const { cards } = useContext(AppContext);
-
-  // const clickHandler = (id) => {
-  //   setCards((prev) => {
-  //     return {...prev, isClicked:}
-  //   })
-  // };
 
   return (
     <section className="grid gap-6 grid-cols-4 w-[35%] mx-auto">
