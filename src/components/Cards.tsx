@@ -1,10 +1,9 @@
 import Card from "./Card"
 import { useContext } from "react"
 import { AppContext } from "../App"
-
-
 const Cards = () => {
-  const cards = useContext(AppContext)
+  console.log(AppContext)
+  const {cards} = useContext(AppContext)
   console.log(cards)
   return (
       <section className="grid gap-6 grid-cols-4 w-[35%] mx-auto">
