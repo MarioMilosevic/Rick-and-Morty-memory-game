@@ -1,8 +1,10 @@
+import Header from "./components/Header";
 function App() {
-
   return (
-     <div className="bg-red-400">mario</div>
-  )
+    <>
+      <Header />
+    </>
+  );
 }
 
-export default App
+export default App;
