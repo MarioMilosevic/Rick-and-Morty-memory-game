@@ -13,6 +13,7 @@ const Cards = () => {
             image={card.image}
             name={card.name}
             id={card.id}
+            isClicked={card.isClicked}
           />
         );
       })}

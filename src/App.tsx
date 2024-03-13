@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import React, { useState, createContext } from "react";
 import Header from "./components/Header";
 import ScoreBoard from "./components/ScoreBoard";
 import Cards from "./components/Cards";
@@ -54,6 +54,7 @@ export const AppContext = createContext<{
   setCurrentScore: React.Dispatch<React.SetStateAction<number>>;
   highScore: number;
   setHighScore: React.Dispatch<React.SetStateAction<number>>;
+  clickHandler: (id:number) => void
 }>({
   cards: [],
   setCards: () => {},
@@ -61,12 +62,44 @@ export const AppContext = createContext<{
   setCurrentScore: () => {},
   highScore: 0,
   setHighScore: () => {},
+  clickHandler: () => {}
 });
 
 function App() {
   const [cards, setCards] = useState<Card[]>(cardsData);
   const [currentScore, setCurrentScore] = useState<number>(0);
   const [highScore, setHighScore] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+  const shuffle = (array: Card[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+ 
+  const clickHandler = (id: number) => {
+    setCards((prev) => {
+        const shuffledArray = shuffle(prev);
+        prev = shuffledArray.map((card) => {
+            if (card.id === id) {
+                if (!card.isClicked) {
+                    return { ...card, isClicked: true };
+                } else {
+                    console.log('game over');
+                    return card;
+                }
+            }
+            return card;
+        });
+        return prev;
+    });
+    setCurrentScore((prev) => prev + 1);
+    setHighScore((prev) => prev + 1);
+};
+
 
   return (
     <>
@@ -78,6 +111,7 @@ function App() {
           setCurrentScore,
           highScore,
           setHighScore,
+          clickHandler
         }}
       >
         <Header />
