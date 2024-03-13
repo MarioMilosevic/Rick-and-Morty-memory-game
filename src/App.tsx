@@ -76,6 +76,7 @@ function App() {
   const [highScore, setHighScore] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+
   const shuffle = (array: Card[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -92,23 +93,30 @@ function App() {
           if (!card.isClicked) {
             return { ...card, isClicked: true };
           } else {
+            // ako 2x kliknem istu figuru
             setIsModalOpen(true);
-            return card;
           }
         }
         return card;
       });
       return prev;
     });
+    // pogrijesim i poveca ga, a ne treba
     setCurrentScore((prev) => {
-      if (prev < 11) {
-       return prev + 1;
+      if (prev < 11 ) {
+        // uvjek udje dokle god je currentScore manji od 12 
+        console.log("kurac")
+        return prev + 1;
       } else {
+    //     // samo ako se dodje do 12
         setIsModalOpen(true);
+        // sve ok
         return prev + 1
       }
     });
-    setHighScore((prev) => prev + 1);
+    setHighScore((prev) => {
+      return currentScore >= prev ? currentScore + 1 : prev;
+    });
   };
 
   const reset = () => {
