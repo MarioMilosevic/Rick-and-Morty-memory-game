@@ -10,7 +10,18 @@ interface CardProps {
 const Card = ({ image, name, id }: CardProps) => {
   const { setCards, setHighScore, setCurrentScore } = useContext(AppContext);
 
+  const shuffle = (array: CardProps[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+  
+
+
   const clickHandler = (id:number) => {
+    setCards((prev)=> prev= shuffle(prev))
     setCards((prev) =>
       prev.map((card) =>
         card.id === id ? { ...card, isClicked: !card.isClicked } : card
