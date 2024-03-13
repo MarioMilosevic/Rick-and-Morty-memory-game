@@ -1,7 +1,10 @@
 import React, { useState, createContext } from "react";
+
 import Header from "./components/Header";
 import ScoreBoard from "./components/ScoreBoard";
 import Cards from "./components/Cards";
+import Modal from "./components/Modal";
+
 import gearHead from "./assets/gearHead.png";
 import squanchy from "./assets/squanchy.png";
 import snuffles from "./assets/snuffles.png";
@@ -88,7 +91,7 @@ function App() {
                 if (!card.isClicked) {
                     return { ...card, isClicked: true };
                 } else {
-                    console.log('game over');
+                    setIsModalOpen(true)
                     return card;
                 }
             }
@@ -116,6 +119,7 @@ function App() {
       >
         <Header />
         <ScoreBoard />
+        {isModalOpen && <Modal/>}
         <Cards />
       </AppContext.Provider>
     </>
