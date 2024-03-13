@@ -57,8 +57,8 @@ export const AppContext = createContext<{
   setCurrentScore: React.Dispatch<React.SetStateAction<number>>;
   highScore: number;
   setHighScore: React.Dispatch<React.SetStateAction<number>>;
-  clickHandler: (id:number) => void;
-  reset:React.Dispatch<React.SetStateAction<Card[]>>;
+  clickHandler: (id: number) => void;
+  reset: () => void;
 }>({
   cards: [],
   setCards: () => {},
@@ -67,14 +67,14 @@ export const AppContext = createContext<{
   highScore: 0,
   setHighScore: () => {},
   clickHandler: () => {},
-  reset:() => {}
+  reset: () => {},
 });
 
 function App() {
   const [cards, setCards] = useState<Card[]>(cardsData);
   const [currentScore, setCurrentScore] = useState<number>(0);
   const [highScore, setHighScore] = useState<number>(0);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const shuffle = (array: Card[]) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -84,33 +84,38 @@ function App() {
     return array;
   };
 
- 
   const clickHandler = (id: number) => {
     setCards((prev) => {
-        const shuffledArray = shuffle(prev);
-        prev = shuffledArray.map((card) => {
-            if (card.id === id) {
-                if (!card.isClicked) {
-                    return { ...card, isClicked: true };
-                } else {
-                    setIsModalOpen(true)
-                    return card;
-                }
-            }
+      const shuffledArray = shuffle(prev);
+      prev = shuffledArray.map((card) => {
+        if (card.id === id) {
+          if (!card.isClicked) {
+            return { ...card, isClicked: true };
+          } else {
+            setIsModalOpen(true);
             return card;
-        });
-        return prev;
+          }
+        }
+        return card;
+      });
+      return prev;
     });
-    setCurrentScore((prev) => prev + 1);
+    setCurrentScore((prev) => {
+      if (prev < 11) {
+       return prev + 1;
+      } else {
+        setIsModalOpen(true);
+        return prev + 1
+      }
+    });
     setHighScore((prev) => prev + 1);
-};
+  };
 
-const reset = () => {
-  setCards(cardsData)
-  setCurrentScore(0)
-  setIsModalOpen(false)
-}
-
+  const reset = () => {
+    setCards(cardsData);
+    setCurrentScore(0);
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -123,12 +128,12 @@ const reset = () => {
           highScore,
           setHighScore,
           clickHandler,
-          reset
+          reset,
         }}
       >
         <Header />
         <ScoreBoard />
-        {isModalOpen && <Modal/>}
+        {isModalOpen && <Modal />}
         <Cards />
       </AppContext.Provider>
     </>
