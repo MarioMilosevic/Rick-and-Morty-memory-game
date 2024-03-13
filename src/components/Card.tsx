@@ -13,7 +13,7 @@ const Card = ({ image, name, id }: CardProps) => {
 
   return (
     <li
-      className="bg-gray-50 rounded-xl border flex flex-col cursor-pointer justify-between items-center p-2 w-[150px] h-[195px] shadow-2xl text-center duration-200 hover:scale-110"
+      className="bg-gray-50 rounded-xl border flex flex-col cursor-pointer justify-between items-center p-2 w-[150px] h-[195px] shadow-2xl text-center duration-200 hover:scale-110 "
       onClick={() => clickHandler(id)}
     >
       <img className="h-[70%]" src={image} alt={image} />

@@ -5,7 +5,7 @@ const Cards = () => {
   const { cards } = useContext(AppContext);
 
   return (
-    <section className="grid gap-6 grid-cols-4 w-[35%] mx-auto">
+    <section className="grid grid-cols-4 gap-4 w-[50%] place-items-center mx-auto">
       {cards.map((card) => {
         return (
           <Card

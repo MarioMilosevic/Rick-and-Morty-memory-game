@@ -76,7 +76,6 @@ function App() {
   const [highScore, setHighScore] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-
   const shuffle = (array: Card[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -86,37 +85,64 @@ function App() {
   };
 
   const clickHandler = (id: number) => {
-    setCards((prev) => {
-      const shuffledArray = shuffle(prev);
-      prev = shuffledArray.map((card) => {
-        if (card.id === id) {
-          if (!card.isClicked) {
-            return { ...card, isClicked: true };
-          } else {
-            // ako 2x kliknem istu figuru
-            setIsModalOpen(true);
-          }
-        }
-        return card;
+    // ako je kliknuti objekat sa id-em isClicked:false onda
+    // setCards, setCurrentScore, setHighScore
+    const [clickedCard] = cards.filter((card) => card.id === id);
+
+    if (!clickedCard.isClicked && currentScore < 11) {
+      setCards((prev) => {
+        const shuffledArray = shuffle(prev);
+        prev = shuffledArray.map((card) =>
+          card.id === clickedCard.id ? { ...card, isClicked: true } : card
+        );
+        return prev;
       });
-      return prev;
-    });
+      setCurrentScore((prev) => prev + 1);
+      setHighScore((prev) => {
+        return currentScore >= prev ? currentScore + 1 : prev;
+      });
+    } else if (currentScore === 11) {
+      setCurrentScore(12)
+      setHighScore(12)
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
+    // ako je kliknuti objekat sa id-em isClicked:true onda
+    // setIsModalOpen = true
+    // setCards((prev) => {
+    //   const shuffledArray = shuffle(prev);
+    //   prev = shuffledArray.map((card) => {
+    //     if (card.id === id) {
+    //       if (!card.isClicked) {
+    //         return { ...card, isClicked: true };
+    //       } else {
+    //         // ako 2x kliknem istu figuru
+    //         setIsModalOpen(true);
+    //       }
+    //     }
+    //     return card;
+    //   });
+    //   return prev;
+    // });
     // pogrijesim i poveca ga, a ne treba
-    setCurrentScore((prev) => {
-      if (prev < 11 ) {
-        // uvjek udje dokle god je currentScore manji od 12 
-        console.log("kurac")
-        return prev + 1;
-      } else {
-    //     // samo ako se dodje do 12
-        setIsModalOpen(true);
-        // sve ok
-        return prev + 1
-      }
-    });
-    setHighScore((prev) => {
-      return currentScore >= prev ? currentScore + 1 : prev;
-    });
+    // setCurrentScore((prev) => {
+    //   // Increment the score only if the clicked card is not already clicked
+    //   if (!cards.find((card) => card.id === id)?.isClicked && prev < 11) {
+    //     return prev + 1;
+    //   } else {
+    //     setIsModalOpen(true);
+    //     return prev + 1;
+    //   }
+    // });
+
+    // setHighScore((prev) => {
+    //   if (!cards.find((card) => card.id === id)?.isClicked) {
+    //     return currentScore >= prev ? currentScore + 1 : prev;
+    //   } else {
+    //     return prev;
+    //   }
+    // });
   };
 
   const reset = () => {
