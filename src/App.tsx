@@ -57,7 +57,8 @@ export const AppContext = createContext<{
   setCurrentScore: React.Dispatch<React.SetStateAction<number>>;
   highScore: number;
   setHighScore: React.Dispatch<React.SetStateAction<number>>;
-  clickHandler: (id:number) => void
+  clickHandler: (id:number) => void;
+  reset:React.Dispatch<React.SetStateAction<Card[]>>;
 }>({
   cards: [],
   setCards: () => {},
@@ -65,7 +66,8 @@ export const AppContext = createContext<{
   setCurrentScore: () => {},
   highScore: 0,
   setHighScore: () => {},
-  clickHandler: () => {}
+  clickHandler: () => {},
+  reset:() => {}
 });
 
 function App() {
@@ -103,6 +105,12 @@ function App() {
     setHighScore((prev) => prev + 1);
 };
 
+const reset = () => {
+  setCards(cardsData)
+  setCurrentScore(0)
+  setIsModalOpen(false)
+}
+
 
   return (
     <>
@@ -114,7 +122,8 @@ function App() {
           setCurrentScore,
           highScore,
           setHighScore,
-          clickHandler
+          clickHandler,
+          reset
         }}
       >
         <Header />
