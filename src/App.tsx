@@ -87,7 +87,8 @@ function App() {
   const handleScores = () => {
     currentScore === cards.length
       ? setIsModalOpen(true)
-      : setCurrentScore((prev) => prev + 1);
+      : setCurrentScore((prev) => prev + 1),
+      setHighScore((prev) => (currentScore >= prev ? currentScore + 1 : prev));
   };
 
   const clickHandler = (id: number) => {
@@ -95,18 +96,17 @@ function App() {
       if (card.id === id) {
         if (card.isClicked) {
           setIsModalOpen(true);
-          return card; // Return the original card object
+          return card;
         } else {
-          return { ...card, isClicked: true }; // Return the updated card object
+          return { ...card, isClicked: true };
         }
       } else {
-        return card; // Return the original card object
+        return card;
       }
     });
     setCards(shuffle(newCards));
     handleScores();
   };
-  
 
   // const clickHandler = (id: number) => {
   //   const newCards = cards.map((card) => {
