@@ -84,66 +84,41 @@ function App() {
     return array;
   };
 
-  const clickHandler = (id: number) => {
-    // ako je kliknuti objekat sa id-em isClicked:false onda
-    // setCards, setCurrentScore, setHighScore
-    const [clickedCard] = cards.filter((card) => card.id === id);
-
-    if (!clickedCard.isClicked && currentScore < 11) {
-      setCards((prev) => {
-        const shuffledArray = shuffle(prev);
-        prev = shuffledArray.map((card) =>
-          card.id === clickedCard.id ? { ...card, isClicked: true } : card
-        );
-        return prev;
-      });
-      setCurrentScore((prev) => prev + 1);
-      setHighScore((prev) => {
-        return currentScore >= prev ? currentScore + 1 : prev;
-      });
-    } else if (currentScore === 11) {
-      setCurrentScore(12)
-      setHighScore(12)
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(true);
-    }
-    // ako je kliknuti objekat sa id-em isClicked:true onda
-    // setIsModalOpen = true
-    // setCards((prev) => {
-    //   const shuffledArray = shuffle(prev);
-    //   prev = shuffledArray.map((card) => {
-    //     if (card.id === id) {
-    //       if (!card.isClicked) {
-    //         return { ...card, isClicked: true };
-    //       } else {
-    //         // ako 2x kliknem istu figuru
-    //         setIsModalOpen(true);
-    //       }
-    //     }
-    //     return card;
-    //   });
-    //   return prev;
-    // });
-    // pogrijesim i poveca ga, a ne treba
-    // setCurrentScore((prev) => {
-    //   // Increment the score only if the clicked card is not already clicked
-    //   if (!cards.find((card) => card.id === id)?.isClicked && prev < 11) {
-    //     return prev + 1;
-    //   } else {
-    //     setIsModalOpen(true);
-    //     return prev + 1;
-    //   }
-    // });
-
-    // setHighScore((prev) => {
-    //   if (!cards.find((card) => card.id === id)?.isClicked) {
-    //     return currentScore >= prev ? currentScore + 1 : prev;
-    //   } else {
-    //     return prev;
-    //   }
-    // });
+  const handleScores = () => {
+    currentScore === cards.length
+      ? setIsModalOpen(true)
+      : setCurrentScore((prev) => prev + 1);
   };
+
+  const clickHandler = (id: number) => {
+    const newCards = cards.map((card) => {
+      if (card.id === id) {
+        if (card.isClicked) {
+          setIsModalOpen(true);
+          return card; // Return the original card object
+        } else {
+          return { ...card, isClicked: true }; // Return the updated card object
+        }
+      } else {
+        return card; // Return the original card object
+      }
+    });
+    setCards(shuffle(newCards));
+    handleScores();
+  };
+  
+
+  // const clickHandler = (id: number) => {
+  //   const newCards = cards.map((card) => {
+  //     if (card.id === id) {
+  //      return card.isClicked ? setIsModalOpen(true) : { ...card, isClicked: true };
+  //     } else {
+  //       return card;
+  //     }
+  //   });
+  //   setCards(shuffle(newCards));
+  //   handleScores();
+  // };
 
   const reset = () => {
     setCards(cardsData);
